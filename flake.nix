@@ -12,17 +12,23 @@
         };
       in {
         devShells.default = pkgs.mkShell {
-          name = "Example project";
           packages = [
             pkgs.colcon
             # ... other non-ROS packages
             (with pkgs.rosPackages.jazzy; buildEnv {
               paths = [
                 ros-core
+                desktop-full
                 # ... other ROS packages
               ];
             })
           ];
+          shellHook = ''
+            # Setup ROS 2 shell completion
+            eval "$(${pkgs.python3Packages.argcomplete}/bin/register-python-argcomplete ros2)"
+            eval "$(${pkgs.python3Packages.argcomplete}/bin/register-python-argcomplete colcon)"
+          '';
         };
-      });
+      }
+    );
 }
