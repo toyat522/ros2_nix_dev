@@ -24,9 +24,13 @@
             })
           ];
           shellHook = ''
-            # Setup ROS 2 shell completion
-            eval "$(${pkgs.python3Packages.argcomplete}/bin/register-python-argcomplete ros2)"
-            eval "$(${pkgs.python3Packages.argcomplete}/bin/register-python-argcomplete colcon)"
+            # Set up ROS 2 shell completion
+            _zdotdir=$(mktemp -d)
+            echo '[[ -f "$HOME/.zshrc" ]] && source "$HOME/.zshrc"' > "$_zdotdir/.zshrc"
+            echo 'eval "$(${pkgs.python3Packages.argcomplete}/bin/register-python-argcomplete --shell zsh ros2)"' >> "$_zdotdir/.zshrc"
+            echo 'eval "$(${pkgs.python3Packages.argcomplete}/bin/register-python-argcomplete --shell zsh colcon)"' >> "$_zdotdir/.zshrc"
+            echo "trap 'rm -rf $_zdotdir' EXIT" >> "$_zdotdir/.zshrc"
+            export ZDOTDIR="$_zdotdir"
           '';
         };
       }
