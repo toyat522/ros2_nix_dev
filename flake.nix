@@ -15,14 +15,11 @@
           packages = [
             pkgs.colcon
             # ... other non-ROS packages
-            (with pkgs.rosPackages.jazzy; buildEnv {
-              paths = [
-                ros-core
-                desktop-full
-                # ... other ROS packages
-              ];
-            })
-          ];
+          ] ++ (with pkgs.rosPackages.jazzy; [
+            ros-core
+            desktop-full
+            # ... other ROS packages
+          ]);
           shellHook = ''
             # Set up ROS 2 shell completion
             _zdotdir=$(mktemp -d)
@@ -31,6 +28,7 @@
             echo 'eval "$(${pkgs.python3Packages.argcomplete}/bin/register-python-argcomplete --shell zsh colcon)"' >> "$_zdotdir/.zshrc"
             echo "trap 'rm -rf $_zdotdir' EXIT" >> "$_zdotdir/.zshrc"
             export ZDOTDIR="$_zdotdir"
+            export COLCON_LOG_LEVEL=ERROR
           '';
         };
       }

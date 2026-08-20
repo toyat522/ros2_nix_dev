@@ -1,0 +1,9 @@
+{
+  "build": {
+    "continue-on-error": true,
+    "cmake-args": [
+      "-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON"
+    ],
+    "symlink-install": true
+  }
+}
