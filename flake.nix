@@ -18,6 +18,9 @@
           ] ++ (with pkgs.rosPackages.jazzy; [
             ros-core
             desktop-full
+
+            ackermann-msgs
+            ament-cmake-uncrustify
             # ... other ROS packages
           ]);
           shellHook = ''
